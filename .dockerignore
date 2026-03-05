@@ -1,0 +1,30 @@
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Environment variables
+.env
+
+# Cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Git
+.git/
+.gitignore
+
+# SQLite databases (we want to use Postgres in prod)
+*.db
+*.sqlite
+*.sqlite3
+
+# IDEs
+.vscode/
+.idea/
+
+# Readme / Docs
+*.md

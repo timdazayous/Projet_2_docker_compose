@@ -1,0 +1,20 @@
+[project]
+name = "app_api"
+version = "0.1.0"
+description = "FastAPI Backend for User Data"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "pydantic",
+    "pytest",
+    "httpx"
+]
+
+[tool.pytest.ini_options]
+# On force pytest à considérer la racine (là où se trouve app_api) comme source
+pythonpath = ["."]
+testpaths = ["tests"]

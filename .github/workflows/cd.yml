@@ -1,0 +1,48 @@
+name: Continuous Delivery
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"] # Doit correspondre exactement au 'name' dans ci.yml
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    # On exécute seulement si la CI s'est terminée avec succès
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    # Build and Push API
+    - name: Build and Push API Image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./app_api
+        push: true
+        tags: |
+          ${{ secrets.DOCKERHUB_USERNAME }}/projet2-api:latest
+          ${{ secrets.DOCKERHUB_USERNAME }}/projet2-api:${{ github.sha }}
+
+    # Build and Push Frontend
+    - name: Build and Push Frontend Image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./app_front
+        push: true
+        tags: |
+          ${{ secrets.DOCKERHUB_USERNAME }}/projet2-front:latest
+          ${{ secrets.DOCKERHUB_USERNAME }}/projet2-front:${{ github.sha }}

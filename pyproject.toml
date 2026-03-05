@@ -1,0 +1,23 @@
+[project]
+name = "projet2_orchestration"
+version = "0.1.0"
+description = "Projet 2 : Orchestration, Sécurité et Livraison Continue"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pytest",
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "pydantic",
+    "httpx",
+    "requests",
+    "pandas",
+    "streamlit",
+    "ruff"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

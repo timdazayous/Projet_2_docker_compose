@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:15
+    container_name: projet2_db
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - api-db
+
+  api:
+    build:
+      context: .
+      dockerfile: app_api/Dockerfile
+    container_name: projet2_api
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - front-api
+      - api-db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: app_front/Dockerfile
+    container_name: projet2_front
+    restart: always
+    environment:
+      - API_URL=http://api:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    networks:
+      - front-api
+
+networks:
+  front-api:
+    driver: bridge
+  api-db:
+    driver: bridge
+
+volumes:
+  postgres_data:

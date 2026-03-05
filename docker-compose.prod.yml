@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:15
+    container_name: projet2_db_prod
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    networks:
+      - api-db
+
+  api:
+    # L'image viendra de DockerHub poussée par la CI/CD
+    image: ${DOCKERHUB_USERNAME:-ton_user}/mon-api:latest
+    container_name: projet2_api_prod
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - front-api
+      - api-db
+
+  frontend:
+    # L'image viendra de DockerHub
+    image: ${DOCKERHUB_USERNAME:-ton_user}/mon-front:latest
+    container_name: projet2_front_prod
+    restart: always
+    environment:
+      - API_URL=http://api:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    networks:
+      - front-api
+
+networks:
+  front-api:
+    driver: bridge
+  api-db:
+    driver: bridge
+
+volumes:
+  postgres_data_prod:
