@@ -31,3 +31,7 @@ jobs:
       
     - name: Test with pytest
       run: uv run pytest tests/ -v
+      
+    - name: Generate Coverage Report
+      run: |
+        uv run pytest --cov=app_api --cov-report=xml
