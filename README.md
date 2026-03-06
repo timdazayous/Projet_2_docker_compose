@@ -88,12 +88,13 @@ uv run streamlit run app_front/main.py
 
 ---
 
-## 🧪 Qualité & Documentation
+## 📚 Documentation & Tests
 
-### 📝 Documentation Sphinx
+### 📝 Documentation technique (Sphinx)
+Générez et ouvrez la documentation en une seule commande :
 ```bash
-cd docs
-uv run sphinx-build -b html source build/html
+# Build et ouverture automatique (Windows)
+cd docs; uv run sphinx-build -b html source build/html; start build/html/index.html
 ```
 
 ### 🧪 Tests & Couverture
