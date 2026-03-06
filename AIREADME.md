@@ -29,3 +29,7 @@ Ce fichier sert de mémoire pour éviter de répéter les mêmes erreurs lors du
       poolclass=StaticPool
   )
   ```
+### Sphinx : Thème Furo non appliqué
+- **Erreur** : La documentation affichait toujours le thème par défaut Alabaster malgré le changement dans `conf.py`.
+- **Cause** : Doublon de la variable `html_theme` dans `conf.py` (une section ajoutée manuellement et une section par défaut restée en bas du fichier). La dernière valeur (`alabaster`) écrasait la première (`furo`).
+- **Solution** : Nettoyage complet de `conf.py` pour supprimer les doublons et ne garder qu'une seule définition de thème.
