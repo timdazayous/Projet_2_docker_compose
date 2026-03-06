@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
 
 from app_api.main import app
-from app_api.modules.connect import Base, get_db, DataRecord
+from app_api.modules.connect import Base, get_db, DataRecord  # noqa: F401
 
 # Configuration d'une base de données SQLite en mémoire pour les tests
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"

@@ -1,4 +1,3 @@
-import pytest
 from app_api.maths.mon_module import add, sub, square, print_data
 import os
 
