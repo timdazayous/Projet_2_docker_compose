@@ -71,13 +71,26 @@ Une page dédiée permettant d'utiliser les algorithmes du module `maths` :
 ## 🚀 Installation Express
 
 ### 🐳 Via Docker Compose (Recommandé)
+Lancez l'ensemble de l'architecture en une commande :
 ```bash
-# Pour le développement
 docker-compose up --build
-
-# Pour la production (nécessite les secrets configurés)
-docker-compose -f docker-compose.prod.yml up
 ```
+*   **`--build`** : Force la reconstruction des images API et Frontend à partir du code (très utile après une modif).
+*   **`up`** : Démarre les 3 services (PostgreSQL, FastAPI, Streamlit).
+
+#### 🌍 Accès aux services
+Une fois lancé, rendez-vous sur :
+*   🎨 **Interface Web (Frontend)** : [http://localhost:8501](http://localhost:8501)
+*   🧠 **Documentation API (Swagger)** : [http://localhost:8000/docs](http://localhost:8000/docs)
+*   📊 **API (Données JSON)** : [http://localhost:8000/data](http://localhost:8000/data)
+
+#### 🛠️ Commandes Docker utiles
+| Action | Commande |
+| :--- | :--- |
+| **Lancer en arrière-plan** | `docker-compose up -d` |
+| **Voir les logs en direct** | `docker-compose logs -f` |
+| **Arrêter les services** | `docker-compose stop` |
+| **Tout supprimer (clean)** | `docker-compose down` |
 
 ### 🐍 Via Python Local (uv)
 ```bash
