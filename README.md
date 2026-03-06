@@ -4,103 +4,110 @@
 ![CD Status](https://github.com/timdazayous/Projet_2_docker_compose/actions/workflows/cd.yml/badge.svg)
 ![Security Status](https://github.com/timdazayous/Projet_2_docker_compose/actions/workflows/security.yml/badge.svg)
 
-Bienvenue dans le dépôt du **Projet 2** ! Ce projet transforme un simple script en une **architecture micro-services** robuste, sécurisée et entièrement automatisée via une pipeline CI/CD. 🛠️✨
+Bienvenue dans le dépôt du **Projet 2** ! ✨ Ce projet est le résultat d'une transformation complète : d'un script Python isolé à une **architecture micro-services** moderne, conteneurisée et automatisée.
 
 ---
 
 ## 🏗️ Architecture du Système
 
-Le projet est découpé en trois services distincts qui collaborent harmonieusement :
+L'application repose sur un écosystème de trois services complémentaires :
 
-*   **🎨 Frontend (Streamlit)** : Une interface web interactive pour manipuler les données.
-*   **🧠 API (FastAPI)** : Le "cerveau" de l'application, gérant les calculs et les accès à la base de données.
-*   **💾 Database (PostgreSQL)** : Persistance des données avec gestion des volumes Docker.
+1.  **🎨 Frontend (Streamlit)** : Interface utilisateur fluide et interactive. Elle permet de saisir des données, de consulter la base et d'effectuer des calculs complexes via l'API.
+2.  **🧠 API (FastAPI)** : Le point d'entrée central de la logique métier. Elle expose des endpoints REST pour le stockage des données et les services de calcul.
+3.  **💾 Database (PostgreSQL)** : Un système de gestion de base de données relationnelle robuste, assurant la persistance des informations grâce aux volumes Docker.
 
 ### 🔒 Sécurité & Réseau
-*   **Cloisonnement** : Les réseaux Docker (`front-api` et `api-db`) isolent les services.
-*   **Hygiène** : Scan de secrets automatique avec **Gitleaks**.
-*   **Variables** : Gestion propre via fichiers `.env`.
+*   **Cloisonnement** : Utilisation de réseaux Docker (`front-api` et `api-db`) pour limiter la visibilité des services. Le Frontend ne peut jamais "voir" la base de données directement.
+*   **Hygiène** : Scan automatique via **Gitleaks** pour empêcher toute fuite de secret.
+*   **Propreté** : Analyse statique du code avec **Ruff** pour un code impeccable.
 
 ---
 
-## 🌟 Fonctionnalités
+## 🐳 Docker Compose : Dev vs Prod
 
-### 📥 Page 0 : Saisie de données
-Formulaire intuitif pour insérer de nouveaux enregistrements (Nom, Âge, Ville) dans la base de données PostgreSQL via une requête `POST` à l'API.
+Ce projet propose deux configurations distinctes pour répondre à tous les besoins :
 
-### 📊 Page 1 : Consultation
-Affichage dynamique des données récupérées en temps réel via une requête `GET` à l'API, présentées sous forme de tableau Pandas.
+### 🛠️ `docker-compose.yml` (Mode Développement)
+*   **Build Local** : Les images sont construites à partir du code source local à chaque lancement.
+*   **Agilité** : Idéal pour tester de nouvelles fonctionnalités ou debuguer.
+*   **Simplicité** : Tout est autonome sur votre machine.
 
-### 🧪 Tests Automatisés
-Suite de tests complète avec **Pytest** couvrant la logique métier et l'intégration de l'API.
+### 🚀 `docker-compose.prod.yml` (Mode Production)
+*   **Images DockerHub** : Contrairement au mode dev, ce fichier ne construit rien. Il télécharge les images pré-construites et validées depuis DockerHub.
+*   **Optimisation** : Utilise les builds officiels générés par la pipeline CD.
+*   **Sécurité** : Les images sont immuables et garantissent que le code en prod est exactement celui qui a passé tous les tests.
+
+---
+
+## 🌟 Fonctionnalités Phares
+
+### 📥 Gestion des Données
+*   **Saisie** : Formulaire dynamique pour injecter des enregistrements.
+*   **Lecture** : Visualisation propre des données PostgreSQL via l'API.
+
+### 🧮 Interface de Calcul (Nouveau !)
+Une page dédiée permettant d'utiliser les algorithmes du module `maths` :
+*   **Additions & Soustractions** haute précision.
+*   **Calcul de Carré** instantané.
+*   *Le saviez-vous ?* Ces calculs ne sont pas faits dans le navigateur, mais délégués de manière asynchrone à l'API !
 
 ---
 
 ## 🛠️ Stack Technique
 
-| Technologie | Rôle |
-| :--- | :--- |
-| **Python 3.10** | Langage principal |
-| **FastAPI** | Framework API haute performance |
-| **Streamlit** | Interface utilisateur (Frontend) |
-| **SQLAlchemy** | ORM pour la gestion de la BDD |
-| **PostgreSQL** | Base de données de production |
-| **Docker & Compose** | Conteneurisation et Orchestration |
-| **GitHub Actions** | Automatisation CI/CD |
-| **Sphinx** | Génération de documentation technique |
+| Technologie | Rôle | ✨ Atout |
+| :--- | :--- | :--- |
+| **Python 3.10** | Langue maternelle | Polyvalence et rapidité |
+| **FastAPI** | Framework API | Asynchrone et Typage fort |
+| **Streamlit** | Frontend | Création d'UI rapide et élégante |
+| **SQLAlchemy** | ORM | Abstraction de la BDD (SQLite/Postgres) |
+| **PostgreSQL** | BDD Production | Fiabilité et performance |
+| **Docker** | Conteneurisation | "It works on my machine" partout |
+| **GitHub Actions** | Automatisation | Pipeline CI/CD complète |
+| **Sphinx** | Documentation | Documentation technique pro |
 
 ---
 
-## 🚀 Installation et Lancement
+## 🚀 Installation Express
 
-### 🐳 La méthode rapide (Docker)
-Assurez-vous d'avoir Docker et Docker Compose installés, puis :
+### 🐳 Via Docker Compose (Recommandé)
 ```bash
+# Pour le développement
 docker-compose up --build
+
+# Pour la production (nécessite les secrets configurés)
+docker-compose -f docker-compose.prod.yml up
 ```
-L'application sera accessible sur :
-*   **Frontend** : `http://localhost:8501`
-*   **API** : `http://localhost:8000`
 
-### 🐍 Méthode de développement (Local)
-Utilisez le gestionnaire de paquets `uv` pour une expérience ultra-rapide :
+### 🐍 Via Python Local (uv)
 ```bash
-# 1. Installer les dépendances
 uv sync
-
-# 2. Lancer l'API
 uv run uvicorn app_api.main:app --reload
-
-# 3. Lancer le frontend (dans un autre terminal)
 uv run streamlit run app_front/main.py
 ```
 
 ---
 
-## 📚 Documentation & Tests
+## 🧪 Qualité & Documentation
 
-### 📝 Générer la documentation Sphinx
+### 📝 Documentation Sphinx
 ```bash
 cd docs
 uv run sphinx-build -b html source build/html
 ```
 
-### 🧪 Lancer les tests avec couverture
+### 🧪 Tests & Couverture
 ```bash
 uv run pytest --cov=app_api --cov-report=term-missing
 ```
 
 ---
 
-## ⚙️ Configuration CI/CD sur GitHub
-
-Pour que le déploiement automatique vers DockerHub fonctionne, configurez les **Secrets** suivants dans votre dépôt GitHub :
-1.  `DOCKERHUB_USERNAME` : Votre pseudo DockerHub.
-2.  `DOCKERHUB_TOKEN` : Votre jeton d'accès personnel.
+## 🤝 Contribution & Éthique
+Consultez nos guides pour rejoindre l'aventure :
+*   [📜 Code de Conduite](CODE_OF_CONDUCT.md)
+*   [🛠️ Guide de Contribution](CONTRIBUTING.md)
 
 ---
-
-## 🤝 Contribution
-Les contributions sont les bienvenues ! Consultez le fichier [CONTRIBUTING.md](CONTRIBUTING.md) pour plus de détails.
-
-Developed with ❤️ by Tim D
+Developed with ❤️ by **Tim D**
+🥇 *Projet certifié Orchestration & CD*
