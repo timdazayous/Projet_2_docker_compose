@@ -117,6 +117,20 @@ uv run pytest --cov=app_api --cov-report=term-missing
 
 ---
 
+## 🔐 Sécurité & Confidentialité (RGPD)
+
+Ce projet intègre les meilleures pratiques pour protéger les données et assurer la robustesse du système :
+
+*   **🛡️ Isolation Réseau** : Les services sont cloisonnés. La base de données PostgreSQL est totalement invisible depuis Internet, accessible uniquement par l'API via un réseau privé Docker (`api-db`).
+*   **🧼 Protection contre les Injections** : L'utilisation de l'ORM SQLAlchemy garantit que toutes les requêtes à la base de données sont sécurisées par défaut.
+*   **🔑 Gestion des Secrets** : Aucun mot de passe n'est stocké dans le code. Tout passe par des variables d'environnement (`.env`), et un scan **Gitleaks** est effectué à chaque commit.
+*   **⚖️ Conformité RGPD** :
+    *   **Minimisation** : Seules les données strictement nécessaires au service sont collectées.
+    *   **Transparence** : L'architecture permet une traçabilité claire des flux de données.
+    *   **Sécurité** : Intégrité des données assurée par le typage fort de FastAPI et Pydantic.
+
+---
+
 ## 🤝 Contribution & Éthique
 Consultez nos guides pour rejoindre l'aventure :
 *   [📜 Code de Conduite](CODE_OF_CONDUCT.md)
