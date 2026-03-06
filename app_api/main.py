@@ -3,7 +3,7 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from contextlib import asynccontextmanager
 
-from app_api.models.models import DataItem
+from app_api.models.models import DataItem, MathRequest, SquareRequest
 from app_api.modules import crud, connect
 from app_api.maths import mon_module
 
@@ -32,3 +32,21 @@ def read_data(skip: int = 0, limit: int = 100, db: Session = Depends(connect.get
     """Récupère les données depuis la BDD."""
     records = crud.get_all_records(db, skip=skip, limit=limit)
     return records
+
+@app.post("/math/add")
+def math_add(request: MathRequest):
+    """Effectue une addition via le module maths."""
+    result = mon_module.add(request.a, request.b)
+    return {"a": request.a, "b": request.b, "operation": "addition", "result": result}
+
+@app.post("/math/sub")
+def math_sub(request: MathRequest):
+    """Effectue une soustraction via le module maths."""
+    result = mon_module.sub(request.a, request.b)
+    return {"a": request.a, "b": request.b, "operation": "soustraction", "result": result}
+
+@app.post("/math/square")
+def math_square(request: SquareRequest):
+    """Effectue un calcul de carré via le module maths."""
+    result = mon_module.square(request.a)
+    return {"a": request.a, "operation": "carre", "result": result}

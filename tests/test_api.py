@@ -35,3 +35,21 @@ def test_api_read_after_create(client: TestClient):
     assert len(data) > 0
     # Vérifie que Alice est bien dans la réponse
     assert any(item["nom"] == "Alice" for item in data)
+
+def test_api_math_add(client: TestClient):
+    """Test de la route /math/add."""
+    response = client.post("/math/add", json={"a": 10.5, "b": 4.5})
+    assert response.status_code == 200
+    assert response.json()["result"] == 15.0
+
+def test_api_math_sub(client: TestClient):
+    """Test de la route /math/sub."""
+    response = client.post("/math/sub", json={"a": 10.0, "b": 3.0})
+    assert response.status_code == 200
+    assert response.json()["result"] == 7.0
+
+def test_api_math_square(client: TestClient):
+    """Test de la route /math/square."""
+    response = client.post("/math/square", json={"a": 5.0})
+    assert response.status_code == 200
+    assert response.json()["result"] == 25.0
