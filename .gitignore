@@ -22,3 +22,6 @@ wheels/
 # IDE
 .vscode/
 .idea/
+
+# AI context
+.antigravity_id

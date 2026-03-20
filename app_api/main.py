@@ -1,5 +1,6 @@
 import os
 from fastapi import FastAPI, Depends
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from contextlib import asynccontextmanager
 
@@ -20,6 +21,12 @@ async def lifespan(app: FastAPI):
     print("Arrêt de l'API...")
 
 app = FastAPI(title="Projet 2 API", lifespan=lifespan)
+
+# Servir la documentation Sphinx (Statique)
+# On utilise /docs/static pour ne pas entrer en conflit avec /docs (Swagger)
+docs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "docs", "build", "html"))
+if os.path.exists(docs_path):
+    app.mount("/docs/static", StaticFiles(directory=docs_path), name="static_docs")
 
 @app.post("/data", response_model=DataItem, status_code=201)
 def create_data(item: DataItem, db: Session = Depends(connect.get_db)):
