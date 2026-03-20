@@ -36,6 +36,7 @@ jobs:
         run: |
           cd docs
           uv run sphinx-build -b html source build/html
+          touch build/html/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
