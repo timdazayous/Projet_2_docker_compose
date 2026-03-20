@@ -1,9 +1,9 @@
-Welcome to Projet 2 - Microservices's documentation!
-======================================================
+.. include:: ../../README.md
+   :parser: myst_parser.sphinx_
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Documentation Technique:
 
    modules
 
